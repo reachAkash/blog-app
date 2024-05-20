@@ -11,8 +11,6 @@ const signup = async (req, res, next) => {
     return next(errorHandler(400, "All fields are required"));
   }
 
-  console.log("i came here");
-
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
     username,
