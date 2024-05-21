@@ -23,7 +23,7 @@ const OAuth = () => {
         googlePhotoUrl: resultsFromGoogle.user.photoURL,
       });
       if (data.statusText == "OK") {
-        dispatch({ type: "signInSuccess", payload: data });
+        dispatch({ type: "signInSuccess", payload: data.data });
         navigate("/");
       }
     } catch (error) {
