@@ -37,6 +37,26 @@ const Provider = ({ children }) => {
           ...state,
           theme: state.theme == "light" ? "dark" : "light",
         };
+      case "updateStart":
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case "updateSuccess":
+        return {
+          ...state,
+          currentUser: action.payload,
+          loading: false,
+          error: null,
+        };
+      case "updateFailure": {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      }
       default:
         return state;
     }

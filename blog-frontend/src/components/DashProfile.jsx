@@ -8,6 +8,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
+import axios from "axios";
 
 const DashProfile = () => {
   const { state, dispatch } = useContext(Context);
@@ -28,6 +29,12 @@ const DashProfile = () => {
       setImageFileUrl(URL.createObjectURL(file));
     }
   };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  console.log(formData);
 
   useEffect(() => {
     if (imageFile) {
@@ -69,10 +76,41 @@ const DashProfile = () => {
     );
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError("No changes made!");
+      return;
+    }
+    if (imageFileUploading) {
+      setUpdateUserError("Please wait for image to upload");
+      return;
+    }
+    try {
+      dispatch({ type: "updateStart" });
+      const data = await axios.put(
+        `/api/user/update/${state.currentUser._id}`,
+        formData
+      );
+      console.log(data);
+      if (data.statusText != "OK") {
+        setUpdateUserError(data.message);
+        setUpdateUserSuccess(null);
+        dispatch({ type: "updateFailure", payload: data.data.message });
+      } else {
+        dispatch({ type: "updateSuccess", payload: data.data });
+        setUpdateUserSuccess("User's Profile updates successfully!");
+      }
+    } catch (error) {
+      setUpdateUserSuccess(null);
+      dispatch({ type: "updateFailure", payload: error.message });
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col gap-8">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <input
           ref={filePickerRef}
           type="file"
@@ -102,14 +140,21 @@ const DashProfile = () => {
           id="username"
           placeholder="username"
           defaultValue={state.currentUser.username}
+          onChange={handleChange}
         />
         <TextInput
           type="email"
           id="email"
           placeholder="email"
           defaultValue={state.currentUser.email}
+          onChange={handleChange}
         />
-        <TextInput type="password" id="password" placeholder="password" />
+        <TextInput
+          type="password"
+          id="password"
+          placeholder="password"
+          onChange={handleChange}
+        />
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Update
         </Button>
@@ -118,6 +163,11 @@ const DashProfile = () => {
         <span className="cursor-pointer">Delete Account</span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
+      {updateUserSuccess && (
+        <Alert color="success" className="mt-5">
+          {updateUserSuccess}
+        </Alert>
+      )}
     </div>
   );
 };
