@@ -45,8 +45,8 @@ const SignUp = () => {
             <span className="py-1 text-purple-500">Akash's</span> Blog
           </Link>
           <p className="text-sm mt-5">
-            This is a blog project. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Mollitia, minima.
+            This is a blog project. You can sign in Using Google Auth or email &
+            password.
           </p>
         </div>
         {/* right section */}
