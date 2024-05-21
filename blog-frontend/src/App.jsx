@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useContext } from "react";
 import { Context } from "./ContextProvider";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const { state, dispatch } = useContext(Context);
@@ -22,6 +23,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
           </Routes>
