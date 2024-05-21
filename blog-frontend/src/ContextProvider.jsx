@@ -57,6 +57,36 @@ const Provider = ({ children }) => {
           error: action.payload,
         };
       }
+      case "deleteUserStart": {
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      }
+      case "deleteUserSuccess": {
+        return {
+          ...state,
+          currentUser: null,
+          loading: false,
+          error: null,
+        };
+      }
+      case "deleteUserFailure": {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      }
+      case "signOutSuccess": {
+        return {
+          ...state,
+          currentUser: null,
+          error: false,
+          loading: false,
+        };
+      }
       default:
         return state;
     }

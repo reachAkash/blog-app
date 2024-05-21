@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../ContextProvider";
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import {
   getDownloadURL,
   getStorage,
@@ -9,8 +9,11 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase.js";
 import axios from "axios";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const DashProfile = () => {
+  const navigate = useNavigate();
   const { state, dispatch } = useContext(Context);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -107,6 +110,33 @@ const DashProfile = () => {
     }
   };
 
+  const handleDeleteUser = async (e) => {
+    setShowModal(false);
+    try {
+      dispatch({ type: "deleteUserStart" });
+      const data = await axios.delete(
+        `/api/user/delete/${state.currentUser._id}`
+      );
+      console.log(data);
+      if (data.statusText != "OK") {
+        dispatch({ type: "deleteUserFailure", payload: data.message });
+      } else {
+        dispatch({ type: "deleteUserSuccess", payload: data });
+      }
+    } catch (error) {
+      dispatch({ type: "deleteUserFailure", payload: error });
+    }
+  };
+
+  const handleSignOut = () => {
+    try {
+      const data = axios.post("/api/user/signout");
+      dispatch({ type: "signOutSuccess" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -160,14 +190,47 @@ const DashProfile = () => {
         </Button>
       </form>
       <div className="text-red-500 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={() => setShowModal(true)} className="cursor-pointer">
+          Delete Account
+        </span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
           {updateUserSuccess}
         </Alert>
       )}
+      {state.error && (
+        <Alert color="failure" className="mt-5">
+          {error}
+        </Alert>
+      )}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg to-gray-500 dark:text-gray-400">
+              Are you sure you want to delete your account?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleDeleteUser}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
