@@ -79,6 +79,14 @@ const Provider = ({ children }) => {
           error: action.payload,
         };
       }
+      case "signOutSuccess": {
+        return {
+          ...state,
+          currentUser: null,
+          error: false,
+          loading: false,
+        };
+      }
       default:
         return state;
     }

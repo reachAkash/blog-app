@@ -4,11 +4,19 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Context } from "../ContextProvider";
+import axios from "axios";
 
 const NavbarComp = () => {
   const path = useLocation().pathname;
   const { state, dispatch } = useContext(Context);
-
+  const handleSignOut = () => {
+    try {
+      const data = axios.post("/api/user/signout");
+      dispatch({ type: "signOutSuccess" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Navbar className="border-b-2">
       <Link
@@ -65,7 +73,7 @@ const NavbarComp = () => {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
