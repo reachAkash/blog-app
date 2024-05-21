@@ -8,6 +8,7 @@ const Provider = ({ children }) => {
     loading: false,
     error: null,
     currentUser: null,
+    theme: "light",
   };
 
   const reducer = (state, action) => {
@@ -30,6 +31,11 @@ const Provider = ({ children }) => {
           ...state,
           loading: false,
           error: action.payload,
+        };
+      case "toggleTheme":
+        return {
+          ...state,
+          theme: state.theme == "light" ? "dark" : "light",
         };
       default:
         return state;

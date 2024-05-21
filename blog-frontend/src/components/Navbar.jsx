@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { Context } from "../ContextProvider";
 
 const NavbarComp = () => {
@@ -33,8 +33,13 @@ const NavbarComp = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+        <Button
+          className="w-12 h-10 hidden sm:inline"
+          color="gray"
+          pill
+          onClick={() => dispatch({ type: "toggleTheme" })}
+        >
+          {state.theme == "light" ? <FaMoon /> : <FaSun />}
         </Button>
         <Link to="/sign-in">
           {state.currentUser ? (
