@@ -1,17 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../ContextProvider";
 import { Button, TextInput } from "flowbite-react";
 
 const DashProfile = () => {
   const { state, dispatch } = useContext(Context);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form className="flex flex-col gap-8">
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <div className="w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full">
           <img
             className="rounded-full w-full h-full border-8 border-[lightgray] object-cover"
-            src={state.currentUser.profilePicture}
+            src={imageFileUrl || state.currentUser.profilePicture}
             alt="user"
           />
         </div>
