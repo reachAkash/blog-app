@@ -41,39 +41,41 @@ const NavbarComp = () => {
         >
           {state.theme == "light" ? <FaMoon /> : <FaSun />}
         </Button>
-        <Link to="/sign-in">
-          {state.currentUser ? (
-            <Dropdown
-              arrowIcon={false}
-              inline
-              label={
-                <Avatar
-                  alt="user"
-                  img={state.currentUser.profilePicture}
-                  rounded
-                />
-              }
-            >
-              <Dropdown.Header>
-                <span className="block text-sm">
-                  @{state.currentUser.username}
-                </span>
-                <span className="block text-sm font-medium truncate">
-                  {state.currentUser.email}
-                </span>
-              </Dropdown.Header>
-              <Link to={"/dashboard?tab=profile"}>
-                <Dropdown.Item>Profile</Dropdown.Item>
-              </Link>
-              <Dropdown.Divider />
-              <Dropdown.Item>Sign Out</Dropdown.Item>
-            </Dropdown>
-          ) : (
+        {state.currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar
+                alt="user"
+                img={state.currentUser.profilePicture}
+                rounded
+              />
+            }
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">
+                @{state.currentUser.username}
+              </span>
+              <span className="block text-sm font-medium truncate">
+                {state.currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to={"/dashboard?tab=profile"}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item>Sign Out</Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
             <Button gradientDuoTone="purpleToBlue" outline>
               Sign in
             </Button>
-          )}
-        </Link>
+          </Link>
+        )}
+        {/* dashboard  */}
+        <Link to="/dashboard">dashboard</Link>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
