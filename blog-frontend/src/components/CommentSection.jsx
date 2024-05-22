@@ -1,13 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../ContextProvider.jsx";
 import { Link } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import axios from "axios";
+import { v4 } from "uuid";
+import Comment from "./Comment.jsx";
 
 const CommentSection = ({ postId }) => {
   const { state, dispatch } = useContext(Context);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
+  const [comments, setComments] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,12 +25,29 @@ const CommentSection = ({ postId }) => {
       });
       setComment("");
       setCommentError("");
-      console.log(data);
+      getComments();
     } catch (err) {
       console.log(err);
       setCommentError(err.message);
     }
   };
+
+  console.log(comments);
+
+  const getComments = async () => {
+    try {
+      const data = await axios.get(`/api/comment/getpostcomments/${postId}`);
+      setComments(data.data);
+      console.log(data);
+    } catch (err) {
+      setCommentError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {state.currentUser ? (
@@ -76,6 +96,21 @@ const CommentSection = ({ postId }) => {
             </Alert>
           )}
         </form>
+      )}
+      {comments.length === 0 ? (
+        <p>No comments yet!</p>
+      ) : (
+        <>
+          <div className="flex items-center my-5 text-sm gap-1">
+            <p>Comments</p>
+            <div className="border border-gray-400 py-1 px-2 rounded-sm">
+              <p>{comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comment comment={comment} key={comment._id} />
+          ))}
+        </>
       )}
     </div>
   );

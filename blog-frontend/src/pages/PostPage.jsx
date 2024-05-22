@@ -10,13 +10,10 @@ const PostPage = () => {
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
 
-  console.log(post);
-
   const fetchPost = async () => {
     try {
       setLoading(true);
       const data = await axios.get(`/api/post/getposts?slug=${postSlug}`);
-      console.log(data);
       setPost(data.data.posts[0]);
       setLoading(false);
       setError(false);
