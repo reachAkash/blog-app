@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Spinner, Button } from "flowbite-react";
+import CommentSection from "../components/CommentSection";
 
 const PostPage = () => {
   const { postSlug } = useParams();
@@ -64,6 +65,7 @@ const PostPage = () => {
         className="p-3 max-w-2xl mx-auto w-full"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
+      <CommentSection postId={post._id} />
     </main>
   );
 };
