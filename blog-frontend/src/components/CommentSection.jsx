@@ -1,13 +1,33 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../ContextProvider.jsx";
 import { Link } from "react-router-dom";
-import { Button, Textarea } from "flowbite-react";
+import { Alert, Button, Textarea } from "flowbite-react";
+import axios from "axios";
 
 const CommentSection = ({ postId }) => {
   const { state, dispatch } = useContext(Context);
   const [comment, setComment] = useState("");
+  const [commentError, setCommentError] = useState("");
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (comment.length > 200) {
+      return;
+    }
+    try {
+      const data = await axios.post("/api/comment/create", {
+        content: comment,
+        postId,
+        userId: state.currentUser._id,
+      });
+      setComment("");
+      setCommentError("");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      setCommentError(err.message);
+    }
+  };
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {state.currentUser ? (
@@ -50,6 +70,11 @@ const CommentSection = ({ postId }) => {
               Submit
             </Button>
           </div>
+          {commentError && (
+            <Alert className="mt-5" color="failure">
+              {commentError}
+            </Alert>
+          )}
         </form>
       )}
     </div>
