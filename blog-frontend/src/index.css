@@ -12,3 +12,12 @@
     @apply xxs:max-w-[474px] xs:max-w-[639px] sm:max-w-[768px] md:max-w-[1024px] lg:max-w-[1280px] xl:max-w-[1440px] 2xl:max-w-[1920px];
   }
 }
+
+body {
+  height: 100vh;
+}
+
+.ql-editor {
+  font-size: 1.05rem;
+  font-family: "Montserrat";
+}

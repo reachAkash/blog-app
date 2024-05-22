@@ -82,8 +82,6 @@ const NavbarComp = () => {
             </Button>
           </Link>
         )}
-        {/* dashboard  */}
-        <Link to="/dashboard">dashboard</Link>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
