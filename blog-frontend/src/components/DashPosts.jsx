@@ -3,17 +3,37 @@ import axios from "axios";
 import { Context } from "../ContextProvider";
 import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { v4 } from "uuid";
 
 const DashPosts = () => {
   const { state, dispatch } = useContext(Context);
   const [userPosts, setUserPosts] = useState([]);
+  const [showMore, setShowMore] = useState(true);
 
   console.log(userPosts);
+
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length;
+    try {
+      const data = await axios(
+        `/api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
+      );
+      setUserPosts((prev) => [...prev, ...data.data.posts]);
+      if (data.data.posts.length < 9) {
+        setShowMore(false);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const fetchPosts = async () => {
     try {
       const data = await axios.get("/api/post/getposts");
       setUserPosts(data.data.posts);
+      if (data.data.posts.length < 9) {
+        setShowMore(false);
+      }
     } catch (err) {
       console.log(err.message);
     }
@@ -36,7 +56,7 @@ const DashPosts = () => {
             </Table.Head>
             {userPosts.map((post) => {
               return (
-                <Table.Body className="divide-y">
+                <Table.Body key={v4()} className="divide-y">
                   <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell>
                       {new Date(post.updatedAt).toLocaleDateString()}
@@ -60,7 +80,7 @@ const DashPosts = () => {
                     </Table.Cell>
                     <Table.Cell>{post.category}</Table.Cell>
                     <Table.Cell>
-                      <span className="font-medium to-red-500 hover:underline cursor-pointer">
+                      <span className="font-medium text-red-500 hover:underline cursor-pointer">
                         Delete
                       </span>
                     </Table.Cell>
@@ -77,6 +97,14 @@ const DashPosts = () => {
               );
             })}
           </Table>
+          {showMore && (
+            <button
+              onClick={handleShowMore}
+              className="w-full text-teal-500 self-center text-sm py-7"
+            >
+              Show more
+            </button>
+          )}
         </>
       ) : (
         <p>You have no posts yet!</p>
