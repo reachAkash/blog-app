@@ -85,6 +85,14 @@ const DashProfile = () => {
       setUpdateUserError("No changes made!");
       return;
     }
+    if (formData?.password?.length < 6) {
+      dispatch({
+        type: "updateFailure",
+        payload: "Password must be of 6 characters.",
+      });
+      return;
+    }
+    console.log("im here");
     if (imageFileUploading) {
       setUpdateUserError("Please wait for image to upload");
       return;
