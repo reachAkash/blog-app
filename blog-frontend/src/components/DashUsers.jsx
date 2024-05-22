@@ -27,12 +27,10 @@ const DashUsers = () => {
   };
 
   const handleDeleteUser = async (e) => {
-    setShowModal(false);
     try {
-      const data = await axios.delete(
-        `/api/user/deleteusers/${state.currentUser._id}`
-      );
-      setUserPosts((prev) => prev.filter((post) => post._id != postIdToDelete));
+      const data = await axios.delete(`/api/user/delete/${userIdToDelete}`);
+      setUsers((prev) => prev.filter((user) => user._id != userIdToDelete));
+      setShowModal(false);
     } catch (err) {
       console.log(err.message);
     }
