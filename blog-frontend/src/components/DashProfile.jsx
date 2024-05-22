@@ -220,7 +220,7 @@ const DashProfile = () => {
       )}
       {state.error && (
         <Alert color="failure" className="mt-5">
-          {error}
+          {state.error}
         </Alert>
       )}
       <Modal
