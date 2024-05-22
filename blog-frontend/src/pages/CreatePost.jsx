@@ -125,7 +125,7 @@ const CreatePost = () => {
         <ReactQuill
           theme="snow"
           placeholder="Write something..."
-          className="h-72 mb-12 font-montserrat"
+          className="h-72 dark:text-white mb-12 font-montserrat"
           required
           onChange={(value) => {
             setFormData({ ...formData, content: value });
