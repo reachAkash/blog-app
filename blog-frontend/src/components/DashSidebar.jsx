@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiUser, HiDocumentText } from "react-icons/hi";
+import {
+  HiArrowSmRight,
+  HiUser,
+  HiDocumentText,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../ContextProvider.jsx";
@@ -46,6 +51,13 @@ const DashSidebar = () => {
             <Link to="/dashboard?tab=posts">
               <Sidebar.Item active={tab == "posts"} icon={HiDocumentText}>
                 Posts
+              </Sidebar.Item>
+            </Link>
+          )}
+          {state.currentUser.isAdmin && (
+            <Link to="/dashboard?tab=users">
+              <Sidebar.Item active={tab == "users"} icon={HiOutlineUserGroup}>
+                Users
               </Sidebar.Item>
             </Link>
           )}
