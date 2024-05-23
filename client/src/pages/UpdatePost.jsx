@@ -64,7 +64,7 @@ const UpdatePost = () => {
     e.preventDefault();
     try {
       const data = await axios.put(
-        `/api/post/updatepost/${formData._id}/${state.currentUser._id}`,
+        `https://blog-app-api-akash.vercel.app/api/post/updatepost/${formData._id}/${state.currentUser._id}`,
         formData
       );
       setPublishError(null);
@@ -78,7 +78,9 @@ const UpdatePost = () => {
 
   const fetchPost = async () => {
     try {
-      const data = await axios.get(`/api/post/getposts?postId=${postId}`);
+      const data = await axios.get(
+        `https://blog-app-api-akash.vercel.app/api/post/getposts?postId=${postId}`
+      );
       console.log(data);
       setPublishError(null);
       //   setFormData(data.posts[0]);

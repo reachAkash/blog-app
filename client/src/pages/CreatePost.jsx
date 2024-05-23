@@ -60,7 +60,10 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post("/api/post/create", formData);
+      const data = await axios.post(
+        "https://blog-app-api-akash.vercel.app/api/post/create",
+        formData
+      );
       setPublishError(null);
       console.log(data);
       navigate(`/post/${data.data.slug}`);

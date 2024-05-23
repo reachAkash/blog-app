@@ -34,7 +34,9 @@ export default function Search() {
       try {
         setLoading(true);
         const searchQuery = urlParams.toString();
-        const res = await axios.get(`/api/post/getposts?${searchQuery}`);
+        const res = await axios.get(
+          `https://blog-app-api-akash.vercel.app/api/post/getposts?${searchQuery}`
+        );
         const data = res.data;
         console.log(data);
         setPosts(data.posts);
@@ -86,7 +88,9 @@ export default function Search() {
       urlParams.set("startIndex", startIndex);
       const searchQuery = urlParams.toString();
 
-      const res = await axios.get(`/api/post/getposts?${searchQuery}`);
+      const res = await axios.get(
+        `https://blog-app-api-akash.vercel.app/api/post/getposts?${searchQuery}`
+      );
       const data = res.data;
 
       setPosts([...posts, ...data.posts]);

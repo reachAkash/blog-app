@@ -24,7 +24,10 @@ const SignIn = () => {
     }
     try {
       dispatch({ type: "signInStart" });
-      const data = await axios.post("/api/auth/signin", formData);
+      const data = await axios.post(
+        "https://blog-app-api-akash.vercel.app/api/auth/signin",
+        formData
+      );
       console.log(data);
       if (data.success === false) {
         dispatch({ type: "signInFailure", payload: data.message });

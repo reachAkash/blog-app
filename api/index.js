@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: "https://blog-app-client-gray.vercel.app",
+  origin: "https://blog-app-client-akash.vercel.app",
   optionsSuccessStatus: 200,
   credentials: true,
 };

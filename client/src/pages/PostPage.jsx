@@ -14,7 +14,9 @@ const PostPage = () => {
 
   const fetchRecentPosts = async () => {
     try {
-      const data = await axios.get("/api/post/getposts?limit=3");
+      const data = await axios.get(
+        "https://blog-app-api-akash.vercel.app/api/post/getposts?limit=3"
+      );
       setRecentPosts(data.data.posts);
     } catch (error) {
       console.log(error.message);
