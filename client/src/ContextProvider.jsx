@@ -96,8 +96,9 @@ const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const verifyUser = async () => {
-    const data = await axios("/api/auth/verifyuser");
-    // console.log(data);
+    const data = await axios(
+      "https://blog-app-api-akash.vercel.app/api/auth/verifyuser"
+    );
     dispatch({ type: "signInSuccess", payload: data.data });
   };
 

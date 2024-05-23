@@ -11,7 +11,9 @@ const Home = () => {
 
   const fetchPosts = async () => {
     try {
-      const data = await axios("/api/post/getposts");
+      const data = await axios(
+        "https://blog-app-api-akash.vercel.app/api/post/getposts"
+      );
       setPosts(data.data.posts);
     } catch (err) {
       console.log(err.message);
