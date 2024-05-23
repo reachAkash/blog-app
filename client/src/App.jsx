@@ -41,6 +41,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/post/:postSlug" element={<PostPage />} />
+            <Route path="*" element={<p>Page not found</p>} />
           </Routes>
           <Footer />
         </div>
