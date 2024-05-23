@@ -14,11 +14,8 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
 
   const getUser = async () => {
     try {
-      const res = await fetch(`/api/user/${comment.userId}`);
-      const data = await res.json();
-      if (res.ok) {
-        setUser(data);
-      }
+      const data = await axios.get(`/api/user/${comment.userId}`);
+      setUser(data);
     } catch (error) {
       console.log(error.message);
     }
