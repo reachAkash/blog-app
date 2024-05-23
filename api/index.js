@@ -7,9 +7,18 @@ const PostRoutes = require("./routes/post.route.js");
 const CommentRoutes = require("./routes/comment.route.js");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 const app = express();
+
+const corsOptions = {
+  origin: "https://blog-app-client-gray.vercel.app",
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -22,11 +31,6 @@ app.use("/api/user", UserRoutes);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/post", PostRoutes);
 app.use("/api/comment", CommentRoutes);
-app.use(express.static(path.join(__dirname, "/client/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -37,6 +41,7 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
 app.listen(3000, () => {
   console.log("Server Started!");
 });
