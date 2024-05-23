@@ -1,4 +1,5 @@
-import React, { createContext, useReducer } from "react";
+import axios from "axios";
+import React, { createContext, useEffect, useReducer } from "react";
 
 const Context = createContext();
 
@@ -93,6 +94,16 @@ const Provider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const verifyUser = async () => {
+    const data = await axios("/api/auth/verifyuser");
+    // console.log(data);
+    dispatch({ type: "signInSuccess", payload: data.data });
+  };
+
+  useEffect(() => {
+    verifyUser();
+  }, []);
 
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>

@@ -112,19 +112,12 @@ const google = async (req, res, next) => {
   }
 };
 
-const verifyUser = (req, res, next) => {
-  const token = req.cookies.access_token;
-  if (!token) {
-    return next(errorHandler(404, "Unauthorized"));
+const verifyUser = async (req, res, next) => {
+  if (!req.user) {
+    next(errorHandler(403, "Unauthorized"));
   }
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return next(errorHandler(401, "Unauthorized"));
-    }
-    console.log(user);
-    req.user = user;
-    next();
-  });
-  res.end("hi");
+  const user = await User.findById(req.user.id);
+  console.log(user);
+  res.status(200).json(user);
 };
 module.exports = { signup, signin, google, verifyUser };

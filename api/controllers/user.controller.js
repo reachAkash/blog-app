@@ -149,7 +149,6 @@ const getAdminAccess = async (req, res, next) => {
     if (!updatedUser) {
       return next(errorHandler(500, "Failed to update changes"));
     }
-    console.log(updatedUser);
 
     res.status(201).json(updatedUser);
   } catch (err) {
