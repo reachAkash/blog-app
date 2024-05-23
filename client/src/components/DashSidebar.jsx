@@ -27,7 +27,9 @@ const DashSidebar = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post("/api/user/signout");
+      const data = axios.post(
+        "https://blog-app-api-akash.vercel.app/api/user/signout"
+      );
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);

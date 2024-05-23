@@ -25,7 +25,9 @@ const DashboardComp = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios("/api/user/getusers?limit=5");
+      const data = await axios(
+        "https://blog-app-api-akash.vercel.app/api/user/getusers?limit=5"
+      );
       setUsers(data.data.users);
       setTotalUsers(data.data.totalUsers);
       setLastMonthUsers(data.data.lastMonthUsers);
@@ -35,7 +37,9 @@ const DashboardComp = () => {
   };
   const fetchPosts = async () => {
     try {
-      const data = await axios("/api/post/getposts?limit=5");
+      const data = await axios(
+        "https://blog-app-api-akash.vercel.app/api/post/getposts?limit=5"
+      );
       setPosts(data.data.posts);
       setTotalPosts(data.data.totalPosts);
       setLastMonthPosts(data.data.lastMonthPosts);
@@ -45,7 +49,9 @@ const DashboardComp = () => {
   };
   const fetchComments = async () => {
     try {
-      const data = await axios("/api/comment/getcomments?limit=5");
+      const data = await axios(
+        "https://blog-app-api-akash.vercel.app/api/comment/getcomments?limit=5"
+      );
       setComments(data.data.comments);
       setTotalComments(data.data.totalcomments);
       setLastMonthComments(data.data.lastMonthComments);

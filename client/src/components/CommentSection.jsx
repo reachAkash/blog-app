@@ -21,11 +21,14 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const data = await axios.post("/api/comment/create", {
-        content: comment,
-        postId,
-        userId: state.currentUser._id,
-      });
+      const data = await axios.post(
+        "https://blog-app-api-akash.vercel.app/api/comment/create",
+        {
+          content: comment,
+          postId,
+          userId: state.currentUser._id,
+        }
+      );
       setComment("");
       setCommentError("");
       getComments();
@@ -51,7 +54,7 @@ const CommentSection = ({ postId }) => {
         return;
       }
       const data = await axios.delete(
-        `/api/comment/deletecomment/${commentId}`
+        `https://blog-app-api-akash.vercel.app/api/comment/deletecomment/${commentId}`
       );
       setComments(comments.filter((comment) => comment._id != commentId));
     } catch (err) {
@@ -67,7 +70,9 @@ const CommentSection = ({ postId }) => {
         navigate("/sign-in");
         return;
       }
-      const data = await axios.put(`/api/comment/likecomment/${commentId}`);
+      const data = await axios.put(
+        `https://blog-app-api-akash.vercel.app/api/comment/likecomment/${commentId}`
+      );
       setComments(
         comments.map((comment) => {
           return comment._id === commentId
@@ -85,7 +90,9 @@ const CommentSection = ({ postId }) => {
   };
   const getComments = async () => {
     try {
-      const data = await axios.get(`/api/comment/getpostcomments/${postId}`);
+      const data = await axios.get(
+        `https://blog-app-api-akash.vercel.app/api/comment/getpostcomments/${postId}`
+      );
       setComments(data.data);
       console.log(data);
     } catch (err) {

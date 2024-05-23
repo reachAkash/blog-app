@@ -19,7 +19,7 @@ const DashPosts = () => {
     const startIndex = userPosts.length;
     try {
       const data = await axios(
-        `/api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
+        `https://blog-app-api-akash.vercel.app/api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
       );
       setUserPosts((prev) => [...prev, ...data.data.posts]);
       if (data.data.posts.length < 9) {
@@ -34,7 +34,7 @@ const DashPosts = () => {
     setShowModal(false);
     try {
       const data = await axios.delete(
-        `/api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
+        `https://blog-app-api-akash.vercel.app/api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
       );
       setUserPosts((prev) => prev.filter((post) => post._id != postIdToDelete));
     } catch (err) {
@@ -45,7 +45,7 @@ const DashPosts = () => {
   const fetchPosts = async () => {
     try {
       const data = await axios.get(
-        `/api/post/getposts?userId=${state.currentUser._id}`
+        `https://blog-app-api-akash.vercel.app/api/post/getposts?userId=${state.currentUser._id}`
       );
       setUserPosts(data.data.posts);
       if (data.data.posts.length < 9) {

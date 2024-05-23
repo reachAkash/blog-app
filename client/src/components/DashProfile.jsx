@@ -90,7 +90,7 @@ const DashProfile = () => {
     try {
       dispatch({ type: "updateStart" });
       const data = await axios.put(
-        `/api/user/update/${state.currentUser._id}`,
+        `https://blog-app-api-akash.vercel.app/api/user/update/${state.currentUser._id}`,
         formData
       );
       console.log(data);
@@ -114,7 +114,7 @@ const DashProfile = () => {
     try {
       dispatch({ type: "deleteUserStart" });
       const data = await axios.delete(
-        `/api/user/delete/${state.currentUser._id}`
+        `https://blog-app-api-akash.vercel.app/api/user/delete/${state.currentUser._id}`
       );
       console.log(data);
       if (data.statusText != "OK") {
@@ -129,7 +129,7 @@ const DashProfile = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post("/api/user/signout");
+      const data = axios.post("https://blog-app-api-akash.vercel.app/api/user/signout");
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);

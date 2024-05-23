@@ -16,7 +16,9 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
 
   const getUser = async () => {
     try {
-      const data = await axios.get(`/api/user/${comment.userId}`);
+      const data = await axios.get(
+        `https://blog-app-api-akash.vercel.app/api/user/${comment.userId}`
+      );
       console.log(data);
       setUser(data.data);
     } catch (error) {
@@ -37,7 +39,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
     if (editedContent.trim() == "") return;
     try {
       const data = await axios.put(
-        `/api/comment/editComment/${comment._id}`,
+        `https://blog-app-api-akash.vercel.app/api/comment/editComment/${comment._id}`,
         editedContent
       );
       setIsEditing(false);

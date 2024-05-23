@@ -15,7 +15,9 @@ export default function DashComments() {
 
   const fetchComments = async () => {
     try {
-      const data = await axios(`/api/comment/getcomments`);
+      const data = await axios(
+        `https://blog-app-api-akash.vercel.app/api/comment/getcomments`
+      );
       setComments(data.data.comments);
       if (data.data.comments.length < 9) {
         setShowMore(false);
@@ -35,7 +37,7 @@ export default function DashComments() {
     const startIndex = comments.length;
     try {
       const data = await axios(
-        `/api/comment/getcomments?startIndex=${startIndex}`
+        `https://blog-app-api-akash.vercel.app/api/comment/getcomments?startIndex=${startIndex}`
       );
       setComments((prev) => [...prev, ...data.data.comments]);
       if (data.data.comments.length < 9) {
@@ -50,7 +52,7 @@ export default function DashComments() {
     setShowModal(false);
     try {
       const data = await axios.delete(
-        `/api/comment/deleteComment/${commentIdToDelete}`
+        `https://blog-app-api-akash.vercel.app/api/comment/deleteComment/${commentIdToDelete}`
       );
       setComments((prev) =>
         prev.filter((comment) => comment._id !== commentIdToDelete)

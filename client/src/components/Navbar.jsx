@@ -15,7 +15,9 @@ const NavbarComp = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post("/api/user/signout");
+      const data = axios.post(
+        "https://blog-app-api-akash.vercel.app/api/user/signout"
+      );
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);
@@ -34,7 +36,7 @@ const NavbarComp = () => {
   const handleAdminAccess = async (e) => {
     try {
       const data = await axios.put(
-        `/api/user/getadminaccess?userId=${state.currentUser._id}`
+        `https://blog-app-api-akash.vercel.app/api/user/getadminaccess?userId=${state.currentUser._id}`
       );
       // console.log(data);
       dispatch({ type: "signInSuccess", payload: data.data });

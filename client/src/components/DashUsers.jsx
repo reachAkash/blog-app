@@ -16,7 +16,9 @@ const DashUsers = () => {
   const handleShowMore = async () => {
     const startIndex = users.length;
     try {
-      const data = await axios(`/api/users/getusers?startIndex=${startIndex}`);
+      const data = await axios(
+        `https://blog-app-api-akash.vercel.app/api/users/getusers?startIndex=${startIndex}`
+      );
       setUsers((prev) => [...prev, ...data.data.users]);
       if (data.data.users.length < 9) {
         setShowMore(false);
@@ -28,7 +30,9 @@ const DashUsers = () => {
 
   const handleDeleteUser = async (e) => {
     try {
-      const data = await axios.delete(`/api/user/delete/${userIdToDelete}`);
+      const data = await axios.delete(
+        `https://blog-app-api-akash.vercel.app/api/user/delete/${userIdToDelete}`
+      );
       setUsers((prev) => prev.filter((user) => user._id != userIdToDelete));
       setShowModal(false);
     } catch (err) {
@@ -38,7 +42,9 @@ const DashUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get("/api/user/getusers");
+      const data = await axios.get(
+        "https://blog-app-api-akash.vercel.app/api/user/getusers"
+      );
       setUsers(data.data.users);
       if (data.data.users.length < 9) {
         setShowMore(false);

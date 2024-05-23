@@ -17,11 +17,14 @@ const OAuth = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
-      const data = await axios.post("/api/auth/google", {
-        name: resultsFromGoogle.user.displayName,
-        email: resultsFromGoogle.user.email,
-        googlePhotoUrl: resultsFromGoogle.user.photoURL,
-      });
+      const data = await axios.post(
+        "https://blog-app-api-akash.vercel.app/api/auth/google",
+        {
+          name: resultsFromGoogle.user.displayName,
+          email: resultsFromGoogle.user.email,
+          googlePhotoUrl: resultsFromGoogle.user.photoURL,
+        }
+      );
       if (data.statusText == "OK") {
         dispatch({ type: "signInSuccess", payload: data.data });
         navigate("/");
