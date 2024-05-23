@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../ContextProvider.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import axios from "axios";
-import { v4 } from "uuid";
 import Comment from "./Comment.jsx";
 
 const CommentSection = ({ postId }) => {
@@ -11,7 +10,7 @@ const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState("");
   const [comments, setComments] = useState([]);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
@@ -32,8 +31,30 @@ const CommentSection = ({ postId }) => {
     }
   };
 
-  console.log(comments);
+  // console.log(comment)
 
+  const handleLike = async (commentId) => {
+    try {
+      if (!state.currentUser) {
+        navigate("/sign-in");
+        return;
+      }
+      const data = await axios.put(`/api/comment/likecomment/${commentId}`);
+      setComments(
+        comments.map((comment) => {
+          return comment._id === commentId
+            ? {
+                ...comment,
+                likes: data.data.likes,
+                numberOfLikes: data.data.likes.length,
+              }
+            : comment;
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getComments = async () => {
     try {
       const data = await axios.get(`/api/comment/getpostcomments/${postId}`);
@@ -107,9 +128,15 @@ const CommentSection = ({ postId }) => {
               <p>{comments.length}</p>
             </div>
           </div>
-          {comments.map((comment) => (
-            <Comment comment={comment} key={comment._id} />
-          ))}
+          {comments?.map((comment) => {
+            return (
+              <Comment
+                comment={comment}
+                key={comment._id}
+                onLike={handleLike}
+              />
+            );
+          })}
         </>
       )}
     </div>
