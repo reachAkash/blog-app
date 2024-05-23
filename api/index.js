@@ -6,14 +6,12 @@ const AuthRoutes = require("./routes/auth.route.js");
 const PostRoutes = require("./routes/post.route.js");
 const CommentRoutes = require("./routes/comment.route.js");
 const cookieParser = require("cookie-parser");
-import path from "path";
+const path = require("path");
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Database Connected"))
   .catch((err) => console.log(err));
-
-const __dirname = path.resolve();
 
 dotenv.config();
 const app = express();
