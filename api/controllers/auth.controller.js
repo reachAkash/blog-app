@@ -114,7 +114,7 @@ const google = async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
   if (!req.user) {
-    next(errorHandler(403, "Unauthorized"));
+    return next(errorHandler(403, "Unauthorized"));
   }
   const user = await User.findById(req.user.id);
   console.log(user);
