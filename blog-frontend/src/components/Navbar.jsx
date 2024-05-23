@@ -23,11 +23,12 @@ const NavbarComp = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("im here in navbar");
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
-    navigate(`/search${searchQuery}`);
+    navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
