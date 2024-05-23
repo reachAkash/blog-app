@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Context } from "../ContextProvider";
@@ -8,7 +8,11 @@ import axios from "axios";
 
 const NavbarComp = () => {
   const path = useLocation().pathname;
+  const navigate = useNavigate();
+  const location = useLocation();
   const { state, dispatch } = useContext(Context);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleSignOut = () => {
     try {
       const data = axios.post("/api/user/signout");
@@ -17,6 +21,23 @@ const NavbarComp = () => {
       console.log(err);
     }
   };
+
+  const handleSubmit = async (e) => {
+    console.log("im here in navbar");
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
   return (
     <Navbar className="border-b-2">
       <Link
@@ -25,12 +46,14 @@ const NavbarComp = () => {
       >
         <span className="py-1 text-purple-500">Akash's</span> Blog
       </Link>
-      <form action="">
+      <form onSubmit={handleSubmit} action="">
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button

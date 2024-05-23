@@ -14,17 +14,21 @@ import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
+import ScrollToTop from "./components/ScrollToTop";
+import Search from "./pages/Search";
 
 function App() {
   const { state, dispatch } = useContext(Context);
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className={state.theme}>
         <div className="font-montserrat bg-white text-gray-700 dark:text-gray-700 dark:bg-[rgb(16,23,42)] min-h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route element={<PrivateRoute />}>

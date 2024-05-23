@@ -5,6 +5,8 @@ import {
   HiUser,
   HiDocumentText,
   HiOutlineUserGroup,
+  HiAnnotation,
+  HiChartPie,
 } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
@@ -18,7 +20,6 @@ const DashSidebar = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
-    console.log(tabFromUrl);
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
@@ -37,6 +38,13 @@ const DashSidebar = () => {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {state.currentUser.isAdmin && (
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item active={tab == "dash" || !tab} icon={HiChartPie}>
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
@@ -58,6 +66,13 @@ const DashSidebar = () => {
             <Link to="/dashboard?tab=users">
               <Sidebar.Item active={tab == "users"} icon={HiOutlineUserGroup}>
                 Users
+              </Sidebar.Item>
+            </Link>
+          )}
+          {state.currentUser.isAdmin && (
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item active={tab == "comments"} icon={HiAnnotation}>
+                Comments
               </Sidebar.Item>
             </Link>
           )}

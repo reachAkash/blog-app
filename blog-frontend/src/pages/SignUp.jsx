@@ -98,7 +98,7 @@ const SignUp = () => {
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an account?</span>
-            <Link to="sign-in" className="text-blue-600 hover:text-blue-800">
+            <Link to="/sign-in" className="text-blue-600 hover:text-blue-800">
               Sign In
             </Link>
           </div>
