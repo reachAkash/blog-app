@@ -3,25 +3,28 @@ import { useContext, useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import { Button, Textarea } from "flowbite-react";
 import { Context } from "../ContextProvider";
+import axios from "axios";
 
-const Comment = ({ comment, onLike, onEdit }) => {
+const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const [user, setUser] = useState({});
   const { state, dispatch } = useContext(Context);
   const { currentUser } = state;
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await fetch(`/api/user/${comment.userId}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUser(data);
-        }
-      } catch (error) {
-        console.log(error.message);
+
+  const getUser = async () => {
+    try {
+      const res = await fetch(`/api/user/${comment.userId}`);
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data);
       }
-    };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
     getUser();
   }, [comment]);
 
@@ -31,20 +34,14 @@ const Comment = ({ comment, onLike, onEdit }) => {
   };
 
   const handleSave = async () => {
+    if (editedContent.trim() == "") return;
     try {
-      const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: editedContent,
-        }),
-      });
-      if (res.ok) {
-        setIsEditing(false);
-        onEdit(comment, editedContent);
-      }
+      const data = await axios.put(
+        `/api/comment/editComment/${comment._id}`,
+        editedContent
+      );
+      setIsEditing(false);
+      onEdit(comment, editedContent);
     } catch (error) {
       console.log(error.message);
     }
@@ -124,6 +121,13 @@ const Comment = ({ comment, onLike, onEdit }) => {
                       className="text-gray-400 hover:text-blue-500"
                     >
                       Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(comment._id)}
+                      className="text-gray-400 hover:text-red-500"
+                    >
+                      Delete
                     </button>
                   </>
                 )}
