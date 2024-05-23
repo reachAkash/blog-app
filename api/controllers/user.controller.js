@@ -132,4 +132,37 @@ const getUser = async (req, res, next) => {
     next(err);
   }
 };
-module.exports = { test, updateUser, deleteUser, signOut, getUsers, getUser };
+
+const getAdminAccess = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.query.userId);
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      req.query.userId,
+      {
+        isAdmin: true,
+      },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return next(errorHandler(500, "Failed to update changes"));
+    }
+    console.log(updatedUser);
+
+    res.status(201).json(updatedUser);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  test,
+  updateUser,
+  deleteUser,
+  signOut,
+  getUsers,
+  getUser,
+  getAdminAccess,
+};

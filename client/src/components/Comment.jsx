@@ -6,6 +6,8 @@ import { Context } from "../ContextProvider";
 import axios from "axios";
 
 const Comment = ({ comment, onLike, onEdit, onDelete }) => {
+  // console.log(comment);
+
   const [user, setUser] = useState({});
   const { state, dispatch } = useContext(Context);
   const { currentUser } = state;
@@ -15,7 +17,8 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const getUser = async () => {
     try {
       const data = await axios.get(`/api/user/${comment.userId}`);
-      setUser(data);
+      console.log(data);
+      setUser(data.data);
     } catch (error) {
       console.log(error.message);
     }

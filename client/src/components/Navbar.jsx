@@ -31,6 +31,19 @@ const NavbarComp = () => {
     navigate(`/search?${searchQuery}`);
   };
 
+  const handleAdminAccess = async (e) => {
+    try {
+      const data = await axios.put(
+        `/api/user/getadminaccess?userId=${state.currentUser._id}`
+      );
+      // console.log(data);
+      dispatch({ type: "signInSuccess", payload: data.data });
+      navigate("/dashboard?tab=profile");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -38,6 +51,7 @@ const NavbarComp = () => {
       setSearchTerm(searchTermFromUrl);
     }
   }, [location.search]);
+
   return (
     <Navbar className="border-b-2">
       <Link
@@ -92,6 +106,19 @@ const NavbarComp = () => {
                 {state.currentUser.email}
               </span>
             </Dropdown.Header>
+
+            <Dropdown.Item
+              disabled={state.currentUser.isAdmin}
+              className={`${
+                state.currentUser.isAdmin &&
+                "disabled:opacity-70 disabled:cursor-not-allowed"
+              }`}
+              onClick={handleAdminAccess}
+            >
+              Admin Access
+            </Dropdown.Item>
+
+            <Dropdown.Divider />
             <Link to={"/dashboard?tab=profile"}>
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
