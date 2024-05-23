@@ -5,8 +5,8 @@
   "module": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon blog-backend/index.js",
-    "start": "node blog-backend/index.js",
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
