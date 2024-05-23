@@ -1,3 +1,3 @@
-export const baseurl = "https://blog-app-api-akash.vercel.app/";
+export const baseurl = "/";
 
 // module.exports = baseurl;
