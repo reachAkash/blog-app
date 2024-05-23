@@ -5,6 +5,7 @@ import {
   HiUser,
   HiDocumentText,
   HiOutlineUserGroup,
+  HiAnnotation,
 } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
@@ -58,6 +59,13 @@ const DashSidebar = () => {
             <Link to="/dashboard?tab=users">
               <Sidebar.Item active={tab == "users"} icon={HiOutlineUserGroup}>
                 Users
+              </Sidebar.Item>
+            </Link>
+          )}
+          {state.currentUser.isAdmin && (
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item active={tab == "comments"} icon={HiAnnotation}>
+                Comments
               </Sidebar.Item>
             </Link>
           )}
