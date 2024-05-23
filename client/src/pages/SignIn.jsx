@@ -27,13 +27,8 @@ const SignIn = () => {
       dispatch({ type: "signInStart" });
       const data = await axios.post(`${baseurl}api/auth/signin`, formData);
       console.log(data);
-      if (data.success === false) {
-        dispatch({ type: "signInFailure", payload: data.message });
-      }
-      if (data.statusText == "OK") {
-        dispatch({ type: "signInSuccess", payload: data });
-        navigate("/");
-      }
+      dispatch({ type: "signInSuccess", payload: data.data.rest });
+      navigate("/");
     } catch (error) {
       dispatch({ type: "signInFailure", payload: error.message });
     }

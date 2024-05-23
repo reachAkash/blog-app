@@ -113,11 +113,12 @@ const google = async (req, res, next) => {
 };
 
 const verifyUser = async (req, res, next) => {
-  if (!req.user) {
-    return next(errorHandler(403, "Unauthorized"));
+  try {
+    const user = await User.findById(req.user.id);
+    console.log(user);
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
   }
-  const user = await User.findById(req.user.id);
-  console.log(user);
-  res.status(200).json(user);
 };
 module.exports = { signup, signin, google, verifyUser };

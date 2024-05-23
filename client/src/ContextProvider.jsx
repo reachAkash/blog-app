@@ -97,8 +97,12 @@ const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const verifyUser = async () => {
-    const data = await axios(`${baseurl}/api/auth/verifyuser`);
-    dispatch({ type: "signInSuccess", payload: data.data });
+    try {
+      const data = await axios(`${baseurl}api/auth/verifyuser`);
+      dispatch({ type: "signInSuccess", payload: data.data });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {

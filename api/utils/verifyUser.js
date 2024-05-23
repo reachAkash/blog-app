@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const { errorHandler } = "./error.js";
 
 const verifyToken = (req, res, next) => {
+  console.log("im here in token");
+
   const token = req.cookies.access_token;
   if (!token) {
     return next(errorHandler(404, "Unauthorized"));
