@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import OAuth from "../components/OAuth";
+import { baseurl } from "../baseurl";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -22,10 +23,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const data = await axios.post(
-        "https://blog-app-api-akash.vercel.app/api/auth/signup",
-        formData
-      );
+      const data = await axios.post(`${baseurl}api/auth/signup`, formData);
       console.log(data);
       if (data.success === false) {
         setErrorMessage(data.message);

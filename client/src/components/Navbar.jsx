@@ -5,6 +5,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Context } from "../ContextProvider";
 import axios from "axios";
+import { baseurl } from "../baseurl";
 
 const NavbarComp = () => {
   const path = useLocation().pathname;
@@ -15,9 +16,7 @@ const NavbarComp = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post(
-        "https://blog-app-api-akash.vercel.app/api/user/signout"
-      );
+      const data = axios.post(`${baseurl}api/user/signout`);
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);
@@ -36,7 +35,7 @@ const NavbarComp = () => {
   const handleAdminAccess = async (e) => {
     try {
       const data = await axios.put(
-        `https://blog-app-api-akash.vercel.app/api/user/getadminaccess?userId=${state.currentUser._id}`
+        `${baseurl}api/user/getadminaccess?userId=${state.currentUser._id}`
       );
       // console.log(data);
       dispatch({ type: "signInSuccess", payload: data.data });

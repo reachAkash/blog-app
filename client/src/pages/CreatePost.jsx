@@ -11,6 +11,7 @@ import {
 import { app } from "../firebase.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { baseurl } from "../baseurl.js";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -60,10 +61,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post(
-        "https://blog-app-api-akash.vercel.app/api/post/create",
-        formData
-      );
+      const data = await axios.post(`${baseurl}api/post/create`, formData);
       setPublishError(null);
       console.log(data);
       navigate(`/post/${data.data.slug}`);

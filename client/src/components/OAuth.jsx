@@ -6,6 +6,7 @@ import { app } from "../firebase";
 import axios from "axios";
 import { Context } from "../ContextProvider";
 import { useNavigate } from "react-router-dom";
+import { baseurl } from "../baseurl";
 
 const OAuth = () => {
   const navigate = useNavigate();
@@ -17,14 +18,11 @@ const OAuth = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
-      const data = await axios.post(
-        "https://blog-app-api-akash.vercel.app/api/auth/google",
-        {
-          name: resultsFromGoogle.user.displayName,
-          email: resultsFromGoogle.user.email,
-          googlePhotoUrl: resultsFromGoogle.user.photoURL,
-        }
-      );
+      const data = await axios.post(`${baseurl}api/auth/google`, {
+        name: resultsFromGoogle.user.displayName,
+        email: resultsFromGoogle.user.email,
+        googlePhotoUrl: resultsFromGoogle.user.photoURL,
+      });
       if (data.statusText == "OK") {
         dispatch({ type: "signInSuccess", payload: data.data });
         navigate("/");

@@ -5,6 +5,7 @@ import { Alert, Button, Textarea, Modal } from "flowbite-react";
 import axios from "axios";
 import Comment from "./Comment.jsx";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { baseurl } from "../baseurl.js";
 
 const CommentSection = ({ postId }) => {
   const { state, dispatch } = useContext(Context);
@@ -21,14 +22,11 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const data = await axios.post(
-        "https://blog-app-api-akash.vercel.app/api/comment/create",
-        {
-          content: comment,
-          postId,
-          userId: state.currentUser._id,
-        }
-      );
+      const data = await axios.post(`${baseurl}api/comment/create`, {
+        content: comment,
+        postId,
+        userId: state.currentUser._id,
+      });
       setComment("");
       setCommentError("");
       getComments();
@@ -54,7 +52,7 @@ const CommentSection = ({ postId }) => {
         return;
       }
       const data = await axios.delete(
-        `https://blog-app-api-akash.vercel.app/api/comment/deletecomment/${commentId}`
+        `${baseurl}api/comment/deletecomment/${commentId}`
       );
       setComments(comments.filter((comment) => comment._id != commentId));
     } catch (err) {
@@ -71,7 +69,7 @@ const CommentSection = ({ postId }) => {
         return;
       }
       const data = await axios.put(
-        `https://blog-app-api-akash.vercel.app/api/comment/likecomment/${commentId}`
+        `${baseurl}api/comment/likecomment/${commentId}`
       );
       setComments(
         comments.map((comment) => {
@@ -91,7 +89,7 @@ const CommentSection = ({ postId }) => {
   const getComments = async () => {
     try {
       const data = await axios.get(
-        `https://blog-app-api-akash.vercel.app/api/comment/getpostcomments/${postId}`
+        `${baseurl}api/comment/getpostcomments/${postId}`
       );
       setComments(data.data);
       console.log(data);

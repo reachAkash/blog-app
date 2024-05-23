@@ -9,6 +9,7 @@ import {
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { Button, Table } from "flowbite-react";
+import { baseurl } from "../baseurl.js";
 
 const DashboardComp = () => {
   const [users, setUsers] = useState([]);
@@ -26,7 +27,7 @@ const DashboardComp = () => {
   const fetchUsers = async () => {
     try {
       const data = await axios(
-        "https://blog-app-api-akash.vercel.app/api/user/getusers?limit=5"
+        `${baseurl}api/user/getusers?limit=5`
       );
       setUsers(data.data.users);
       setTotalUsers(data.data.totalUsers);
@@ -38,7 +39,7 @@ const DashboardComp = () => {
   const fetchPosts = async () => {
     try {
       const data = await axios(
-        "https://blog-app-api-akash.vercel.app/api/post/getposts?limit=5"
+        `${baseurl}api/post/getposts?limit=5`
       );
       setPosts(data.data.posts);
       setTotalPosts(data.data.totalPosts);
@@ -50,7 +51,7 @@ const DashboardComp = () => {
   const fetchComments = async () => {
     try {
       const data = await axios(
-        "https://blog-app-api-akash.vercel.app/api/comment/getcomments?limit=5"
+        `${baseurl}api/comment/getcomments?limit=5`
       );
       setComments(data.data.comments);
       setTotalComments(data.data.totalcomments);

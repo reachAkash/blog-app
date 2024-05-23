@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useReducer } from "react";
+import { baseurl } from "./baseurl";
 
 const Context = createContext();
 
@@ -96,9 +97,7 @@ const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const verifyUser = async () => {
-    const data = await axios(
-      "https://blog-app-api-akash.vercel.app/api/auth/verifyuser"
-    );
+    const data = await axios(`${baseurl}/api/auth/verifyuser`);
     dispatch({ type: "signInSuccess", payload: data.data });
   };
 

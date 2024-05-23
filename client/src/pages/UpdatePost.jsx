@@ -12,6 +12,7 @@ import { app } from "../firebase.js";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../ContextProvider.jsx";
+import { baseurl } from "../baseurl.js";
 
 const UpdatePost = () => {
   const { state, dispatch } = useContext(Context);
@@ -64,7 +65,7 @@ const UpdatePost = () => {
     e.preventDefault();
     try {
       const data = await axios.put(
-        `https://blog-app-api-akash.vercel.app/api/post/updatepost/${formData._id}/${state.currentUser._id}`,
+        `${baseurl}api/post/updatepost/${formData._id}/${state.currentUser._id}`,
         formData
       );
       setPublishError(null);
@@ -79,7 +80,7 @@ const UpdatePost = () => {
   const fetchPost = async () => {
     try {
       const data = await axios.get(
-        `https://blog-app-api-akash.vercel.app/api/post/getposts?postId=${postId}`
+        `${baseurl}api/post/getposts?postId=${postId}`
       );
       console.log(data);
       setPublishError(null);

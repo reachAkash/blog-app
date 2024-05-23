@@ -4,6 +4,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { Button, Textarea } from "flowbite-react";
 import { Context } from "../ContextProvider";
 import axios from "axios";
+import { baseurl } from "../baseurl";
 
 const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   // console.log(comment);
@@ -16,9 +17,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
 
   const getUser = async () => {
     try {
-      const data = await axios.get(
-        `https://blog-app-api-akash.vercel.app/api/user/${comment.userId}`
-      );
+      const data = await axios.get(`${baseurl}api/user/${comment.userId}`);
       console.log(data);
       setUser(data.data);
     } catch (error) {
@@ -39,7 +38,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
     if (editedContent.trim() == "") return;
     try {
       const data = await axios.put(
-        `https://blog-app-api-akash.vercel.app/api/comment/editComment/${comment._id}`,
+        `${baseurl}api/comment/editComment/${comment._id}`,
         editedContent
       );
       setIsEditing(false);

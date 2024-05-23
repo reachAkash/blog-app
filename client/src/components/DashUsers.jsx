@@ -5,6 +5,7 @@ import { Modal, Table, Button } from "flowbite-react";
 import { v4 } from "uuid";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import { baseurl } from "../baseurl";
 
 const DashUsers = () => {
   const { state, dispatch } = useContext(Context);
@@ -17,7 +18,7 @@ const DashUsers = () => {
     const startIndex = users.length;
     try {
       const data = await axios(
-        `https://blog-app-api-akash.vercel.app/api/users/getusers?startIndex=${startIndex}`
+        `${baseurl}api/users/getusers?startIndex=${startIndex}`
       );
       setUsers((prev) => [...prev, ...data.data.users]);
       if (data.data.users.length < 9) {
@@ -31,7 +32,7 @@ const DashUsers = () => {
   const handleDeleteUser = async (e) => {
     try {
       const data = await axios.delete(
-        `https://blog-app-api-akash.vercel.app/api/user/delete/${userIdToDelete}`
+        `${baseurl}api/user/delete/${userIdToDelete}`
       );
       setUsers((prev) => prev.filter((user) => user._id != userIdToDelete));
       setShowModal(false);
@@ -42,9 +43,7 @@ const DashUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get(
-        "https://blog-app-api-akash.vercel.app/api/user/getusers"
-      );
+      const data = await axios.get(`${baseurl}api/user/getusers`);
       setUsers(data.data.users);
       if (data.data.users.length < 9) {
         setShowMore(false);

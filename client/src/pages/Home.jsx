@@ -4,6 +4,7 @@ import { Context } from "../ContextProvider";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PostCard from "./PostCard";
+import { baseurl } from "../baseurl";
 
 const Home = () => {
   const { state, dispatch } = useContext(Context);
@@ -11,9 +12,7 @@ const Home = () => {
 
   const fetchPosts = async () => {
     try {
-      const data = await axios(
-        "https://blog-app-api-akash.vercel.app/api/post/getposts"
-      );
+      const data = await axios(`${baseurl}api/post/getposts`);
       setPosts(data.data.posts);
     } catch (err) {
       console.log(err.message);

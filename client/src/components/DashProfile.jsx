@@ -11,6 +11,7 @@ import { app } from "../firebase.js";
 import axios from "axios";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
+import { baseurl } from "../baseurl.js";
 
 const DashProfile = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ const DashProfile = () => {
     try {
       dispatch({ type: "updateStart" });
       const data = await axios.put(
-        `https://blog-app-api-akash.vercel.app/api/user/update/${state.currentUser._id}`,
+        `${baseurl}api/user/update/${state.currentUser._id}`,
         formData
       );
       console.log(data);
@@ -114,7 +115,7 @@ const DashProfile = () => {
     try {
       dispatch({ type: "deleteUserStart" });
       const data = await axios.delete(
-        `https://blog-app-api-akash.vercel.app/api/user/delete/${state.currentUser._id}`
+        `${baseurl}api/user/delete/${state.currentUser._id}`
       );
       console.log(data);
       if (data.statusText != "OK") {
@@ -129,7 +130,7 @@ const DashProfile = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post("https://blog-app-api-akash.vercel.app/api/user/signout");
+      const data = axios.post(`${baseurl}api/user/signout`);
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);

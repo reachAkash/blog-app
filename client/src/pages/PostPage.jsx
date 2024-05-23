@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Spinner, Button } from "flowbite-react";
 import CommentSection from "../components/CommentSection";
 import PostCard from "./PostCard";
+import { baseurl } from "../baseurl";
 
 const PostPage = () => {
   const { postSlug } = useParams();
@@ -14,9 +15,7 @@ const PostPage = () => {
 
   const fetchRecentPosts = async () => {
     try {
-      const data = await axios.get(
-        "https://blog-app-api-akash.vercel.app/api/post/getposts?limit=3"
-      );
+      const data = await axios.get(`${baseurl}api/post/getposts?limit=3`);
       setRecentPosts(data.data.posts);
     } catch (error) {
       console.log(error.message);
@@ -30,7 +29,9 @@ const PostPage = () => {
   const fetchPost = async () => {
     try {
       setLoading(true);
-      const data = await axios.get(`/api/post/getposts?slug=${postSlug}`);
+      const data = await axios.get(
+        `${baseurl}api/post/getposts?slug=${postSlug}`
+      );
       setPost(data.data.posts[0]);
       setLoading(false);
       setError(false);

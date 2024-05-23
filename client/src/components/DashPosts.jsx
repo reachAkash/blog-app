@@ -5,6 +5,7 @@ import { Modal, Table, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { baseurl } from "../baseurl";
 
 const DashPosts = () => {
   const { state, dispatch } = useContext(Context);
@@ -19,7 +20,7 @@ const DashPosts = () => {
     const startIndex = userPosts.length;
     try {
       const data = await axios(
-        `https://blog-app-api-akash.vercel.app/api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
+        `${baseurl}api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
       );
       setUserPosts((prev) => [...prev, ...data.data.posts]);
       if (data.data.posts.length < 9) {
@@ -34,7 +35,7 @@ const DashPosts = () => {
     setShowModal(false);
     try {
       const data = await axios.delete(
-        `https://blog-app-api-akash.vercel.app/api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
+        `${baseurl}api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
       );
       setUserPosts((prev) => prev.filter((post) => post._id != postIdToDelete));
     } catch (err) {
@@ -45,7 +46,7 @@ const DashPosts = () => {
   const fetchPosts = async () => {
     try {
       const data = await axios.get(
-        `https://blog-app-api-akash.vercel.app/api/post/getposts?userId=${state.currentUser._id}`
+        `${baseurl}api/post/getposts?userId=${state.currentUser._id}`
       );
       setUserPosts(data.data.posts);
       if (data.data.posts.length < 9) {

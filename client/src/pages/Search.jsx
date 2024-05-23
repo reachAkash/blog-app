@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard.jsx";
 import axios from "axios";
+import { baseurl } from "../baseurl.js";
 
 export default function Search() {
   const [sidebarData, setSidebarData] = useState({
@@ -35,7 +36,7 @@ export default function Search() {
         setLoading(true);
         const searchQuery = urlParams.toString();
         const res = await axios.get(
-          `https://blog-app-api-akash.vercel.app/api/post/getposts?${searchQuery}`
+          `${baseurl}api/post/getposts?${searchQuery}`
         );
         const data = res.data;
         console.log(data);
@@ -88,9 +89,7 @@ export default function Search() {
       urlParams.set("startIndex", startIndex);
       const searchQuery = urlParams.toString();
 
-      const res = await axios.get(
-        `https://blog-app-api-akash.vercel.app/api/post/getposts?${searchQuery}`
-      );
+      const res = await axios.get(`${baseurl}api/post/getposts?${searchQuery}`);
       const data = res.data;
 
       setPosts([...posts, ...data.posts]);

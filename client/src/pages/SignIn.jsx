@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../ContextProvider";
 import OAuth from "../components/OAuth";
+import { baseurl } from "../baseurl";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -24,10 +25,7 @@ const SignIn = () => {
     }
     try {
       dispatch({ type: "signInStart" });
-      const data = await axios.post(
-        "https://blog-app-api-akash.vercel.app/api/auth/signin",
-        formData
-      );
+      const data = await axios.post(`${baseurl}api/auth/signin`, formData);
       console.log(data);
       if (data.success === false) {
         dispatch({ type: "signInFailure", payload: data.message });
