@@ -2,8 +2,7 @@ import { Button, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard.jsx";
-import axios from "axios";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 export default function Search() {
   const [sidebarData, setSidebarData] = useState({
@@ -35,8 +34,8 @@ export default function Search() {
       try {
         setLoading(true);
         const searchQuery = urlParams.toString();
-        const res = await axios.get(
-          `${baseurl}api/post/getposts?${searchQuery}`
+        const res = await axiosInstance.get(
+          `/api/post/getposts?${searchQuery}`
         );
         const data = res.data;
         console.log(data);
@@ -89,7 +88,7 @@ export default function Search() {
       urlParams.set("startIndex", startIndex);
       const searchQuery = urlParams.toString();
 
-      const res = await axios.get(`${baseurl}api/post/getposts?${searchQuery}`);
+      const res = await axiosInstance.get(`/api/post/getposts?${searchQuery}`);
       const data = res.data;
 
       setPosts([...posts, ...data.posts]);

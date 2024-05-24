@@ -9,9 +9,8 @@ import {
   HiChartPie,
 } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import axios from "axios";
 import { Context } from "../ContextProvider.jsx";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashSidebar = () => {
   const location = useLocation();
@@ -28,7 +27,7 @@ const DashSidebar = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post(`${baseurl}api/user/signout`);
+      const data = axiosInstance.post(`/api/user/signout`);
       dispatch({ type: "signOutSuccess" });
     } catch (err) {
       console.log(err);

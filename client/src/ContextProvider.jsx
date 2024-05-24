@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { createContext, useEffect, useReducer } from "react";
-import { baseurl } from "./baseurl";
+import axiosInstance from "../utils/axiosInstance";
 
 const Context = createContext();
 
@@ -98,7 +97,17 @@ const Provider = ({ children }) => {
 
   const verifyUser = async () => {
     try {
-      const data = await axios(`${baseurl}api/auth/verifyuser`);
+      const token = localStorage.getItem("token");
+      const data = await axiosInstance.post(
+        `/api/auth/verifyuser`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       dispatch({ type: "signInSuccess", payload: data.data });
     } catch (err) {
       console.log(err);

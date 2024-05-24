@@ -4,8 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Context } from "../ContextProvider";
-import axios from "axios";
-import { baseurl } from "../baseurl";
+import axiosInstance from "../../utils/axiosInstance";
 
 const NavbarComp = () => {
   const path = useLocation().pathname;
@@ -16,8 +15,9 @@ const NavbarComp = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post(`${baseurl}api/user/signout`);
+      const data = axiosInstance.post(`/api/user/signout`);
       dispatch({ type: "signOutSuccess" });
+      localStorage.removeItem("token");
     } catch (err) {
       console.log(err);
     }
@@ -34,8 +34,8 @@ const NavbarComp = () => {
 
   const handleAdminAccess = async (e) => {
     try {
-      const data = await axios.put(
-        `${baseurl}api/user/getadminaccess?userId=${state.currentUser._id}`
+      const data = await axiosInstance.put(
+        `/api/user/getadminaccess?userId=${state.currentUser._id}`
       );
       // console.log(data);
       dispatch({ type: "signInSuccess", payload: data.data });

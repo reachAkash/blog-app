@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  console.log(username, email, password);
-
   if (!(username && email && password)) {
     return next(errorHandler(400, "All fields are required"));
   }
@@ -19,11 +17,9 @@ const signup = async (req, res, next) => {
     password: hashedPassword,
   });
 
-  console.log(hashedPassword);
-
   try {
     await newUser.save();
-    res.end("SignUp Successfull!");
+    res.end("SignUp Successful!");
   } catch (error) {
     next(error);
   }
@@ -54,14 +50,7 @@ const signin = async (req, res, next) => {
     );
     const { password: pass, ...rest } = validUser._doc;
 
-    res
-      .status(200)
-      .cookie("access_token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-      })
-      .json({ rest });
+    res.status(200).json({ token, ...rest });
   } catch (err) {
     next(err);
   }
@@ -77,12 +66,7 @@ const google = async (req, res, next) => {
         process.env.JWT_SECRET
       );
       const { password, ...rest } = user._doc;
-      res
-        .status(200)
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .json(rest);
+      res.status(200).json({ token, user: rest });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -102,12 +86,8 @@ const google = async (req, res, next) => {
         process.env.JWT_SECRET
       );
       const { password, ...rest } = newUser._doc;
-      res
-        .status(200)
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .json(rest);
+      console.log(rest);
+      res.status(200).json({ token, ...rest });
     }
   } catch (error) {
     next(errorHandler(error));
@@ -117,10 +97,11 @@ const google = async (req, res, next) => {
 const verifyUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
-    console.log(user);
-    res.status(200).json(user);
+    const { password, ...rest } = user._doc;
+    res.status(200).json({ ...rest });
   } catch (err) {
     next(err);
   }
 };
+
 module.exports = { signup, signin, google, verifyUser };

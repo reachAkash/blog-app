@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Context } from "../ContextProvider";
 import { Modal, Table, Button } from "flowbite-react";
 import { v4 } from "uuid";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { baseurl } from "../baseurl";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashUsers = () => {
   const { state, dispatch } = useContext(Context);
@@ -17,8 +16,8 @@ const DashUsers = () => {
   const handleShowMore = async () => {
     const startIndex = users.length;
     try {
-      const data = await axios(
-        `${baseurl}api/users/getusers?startIndex=${startIndex}`
+      const data = await axiosInstance(
+        `/api/users/getusers?startIndex=${startIndex}`
       );
       setUsers((prev) => [...prev, ...data.data.users]);
       if (data.data.users.length < 9) {
@@ -31,8 +30,8 @@ const DashUsers = () => {
 
   const handleDeleteUser = async (e) => {
     try {
-      const data = await axios.delete(
-        `${baseurl}api/user/delete/${userIdToDelete}`
+      const data = await axiosInstance.delete(
+        `/api/user/delete/${userIdToDelete}`
       );
       setUsers((prev) => prev.filter((user) => user._id != userIdToDelete));
       setShowModal(false);
@@ -43,7 +42,7 @@ const DashUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get(`${baseurl}api/user/getusers`);
+      const data = await axiosInstance.get(`/api/user/getusers`);
       setUsers(data.data.users);
       if (data.data.users.length < 9) {
         setShowMore(false);

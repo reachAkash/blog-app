@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Context } from "../ContextProvider";
 import { Modal, Table, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { baseurl } from "../baseurl";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashPosts = () => {
   const { state, dispatch } = useContext(Context);
@@ -19,8 +18,8 @@ const DashPosts = () => {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const data = await axios(
-        `${baseurl}api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
+      const data = await axiosInstance(
+        `/api/post/getposts?userId=${state.currentUser._id}&startIndex=${startIndex}`
       );
       setUserPosts((prev) => [...prev, ...data.data.posts]);
       if (data.data.posts.length < 9) {
@@ -34,8 +33,8 @@ const DashPosts = () => {
   const handleDeletePost = async (e) => {
     setShowModal(false);
     try {
-      const data = await axios.delete(
-        `${baseurl}api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
+      const data = await axiosInstance.delete(
+        `/api/post/deletepost/${postIdToDelete}/${state.currentUser._id}`
       );
       setUserPosts((prev) => prev.filter((post) => post._id != postIdToDelete));
     } catch (err) {
@@ -45,8 +44,8 @@ const DashPosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const data = await axios.get(
-        `${baseurl}api/post/getposts?userId=${state.currentUser._id}`
+      const data = await axiosInstance.get(
+        `/api/post/getposts?userId=${state.currentUser._id}`
       );
       setUserPosts(data.data.posts);
       if (data.data.posts.length < 9) {

@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { Context } from "../ContextProvider.jsx";
-import axios from "axios";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 export default function DashComments() {
   const { state, dispatch } = useContext(Context);
@@ -16,7 +15,7 @@ export default function DashComments() {
 
   const fetchComments = async () => {
     try {
-      const data = await axios(`${baseurl}api/comment/getcomments`);
+      const data = await axiosInstance(`/api/comment/getcomments`);
       setComments(data.data.comments);
       if (data.data.comments.length < 9) {
         setShowMore(false);
@@ -35,8 +34,8 @@ export default function DashComments() {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const data = await axios(
-        `${baseurl}api/comment/getcomments?startIndex=${startIndex}`
+      const data = await axiosInstance(
+        `/api/comment/getcomments?startIndex=${startIndex}`
       );
       setComments((prev) => [...prev, ...data.data.comments]);
       if (data.data.comments.length < 9) {
@@ -50,8 +49,8 @@ export default function DashComments() {
   const handleDeleteComment = async () => {
     setShowModal(false);
     try {
-      const data = await axios.delete(
-        `${baseurl}api/comment/deleteComment/${commentIdToDelete}`
+      const data = await axiosInstance.delete(
+        `/api/comment/deleteComment/${commentIdToDelete}`
       );
       setComments((prev) =>
         prev.filter((comment) => comment._id !== commentIdToDelete)

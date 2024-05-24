@@ -8,10 +8,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
-import axios from "axios";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashProfile = () => {
   const navigate = useNavigate();
@@ -90,8 +89,8 @@ const DashProfile = () => {
     }
     try {
       dispatch({ type: "updateStart" });
-      const data = await axios.put(
-        `${baseurl}api/user/update/${state.currentUser._id}`,
+      const data = await axiosInstance.put(
+        `/api/user/update/${state.currentUser._id}`,
         formData
       );
       console.log(data);
@@ -114,8 +113,8 @@ const DashProfile = () => {
     setShowModal(false);
     try {
       dispatch({ type: "deleteUserStart" });
-      const data = await axios.delete(
-        `${baseurl}api/user/delete/${state.currentUser._id}`
+      const data = await axiosInstance.delete(
+        `/api/user/delete/${state.currentUser._id}`
       );
       console.log(data);
       if (data.statusText != "OK") {
@@ -130,8 +129,9 @@ const DashProfile = () => {
 
   const handleSignOut = () => {
     try {
-      const data = axios.post(`${baseurl}api/user/signout`);
+      const data = axiosInstance.post(`/api/user/signout`);
       dispatch({ type: "signOutSuccess" });
+      localStorage.removeItem("token");
     } catch (err) {
       console.log(err);
     }
@@ -139,6 +139,11 @@ const DashProfile = () => {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
+      {updateUserSuccess && (
+        <Alert color="success" className="mt-5">
+          {updateUserSuccess}
+        </Alert>
+      )}
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <input
@@ -213,11 +218,7 @@ const DashProfile = () => {
           Sign Out
         </span>
       </div>
-      {updateUserSuccess && (
-        <Alert color="success" className="mt-5">
-          {updateUserSuccess}
-        </Alert>
-      )}
+
       {state.error && (
         <Alert color="failure" className="mt-5">
           {state.error}

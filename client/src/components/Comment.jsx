@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import { Button, Textarea } from "flowbite-react";
 import { Context } from "../ContextProvider";
-import axios from "axios";
-import { baseurl } from "../baseurl";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   // console.log(comment);
@@ -17,7 +16,7 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
 
   const getUser = async () => {
     try {
-      const data = await axios.get(`${baseurl}api/user/${comment.userId}`);
+      const data = await axiosInstance.get(`/api/user/${comment.userId}`);
       console.log(data);
       setUser(data.data);
     } catch (error) {
@@ -37,8 +36,8 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const handleSave = async () => {
     if (editedContent.trim() == "") return;
     try {
-      const data = await axios.put(
-        `${baseurl}api/comment/editComment/${comment._id}`,
+      const data = await axiosInstance.put(
+        `/api/comment/editComment/${comment._id}`,
         editedContent
       );
       setIsEditing(false);

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../ContextProvider.jsx";
-import axios from "axios";
 import {
   HiArrowNarrowUp,
   HiOutlineUserGroup,
@@ -9,7 +8,7 @@ import {
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { Button, Table } from "flowbite-react";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 const DashboardComp = () => {
   const [users, setUsers] = useState([]);
@@ -26,9 +25,7 @@ const DashboardComp = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios(
-        `${baseurl}api/user/getusers?limit=5`
-      );
+      const data = await axiosInstance(`/api/user/getusers?limit=5`);
       setUsers(data.data.users);
       setTotalUsers(data.data.totalUsers);
       setLastMonthUsers(data.data.lastMonthUsers);
@@ -38,9 +35,7 @@ const DashboardComp = () => {
   };
   const fetchPosts = async () => {
     try {
-      const data = await axios(
-        `${baseurl}api/post/getposts?limit=5`
-      );
+      const data = await axiosInstance(`/api/post/getposts?limit=5`);
       setPosts(data.data.posts);
       setTotalPosts(data.data.totalPosts);
       setLastMonthPosts(data.data.lastMonthPosts);
@@ -50,9 +45,7 @@ const DashboardComp = () => {
   };
   const fetchComments = async () => {
     try {
-      const data = await axios(
-        `${baseurl}api/comment/getcomments?limit=5`
-      );
+      const data = await axiosInstance(`/api/comment/getcomments?limit=5`);
       setComments(data.data.comments);
       setTotalComments(data.data.totalcomments);
       setLastMonthComments(data.data.lastMonthComments);

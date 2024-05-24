@@ -9,10 +9,9 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../ContextProvider.jsx";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 const UpdatePost = () => {
   const { state, dispatch } = useContext(Context);
@@ -64,8 +63,8 @@ const UpdatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.put(
-        `${baseurl}api/post/updatepost/${formData._id}/${state.currentUser._id}`,
+      const data = await axiosInstance.put(
+        `/api/post/updatepost/${formData._id}/${state.currentUser._id}`,
         formData
       );
       setPublishError(null);
@@ -79,8 +78,8 @@ const UpdatePost = () => {
 
   const fetchPost = async () => {
     try {
-      const data = await axios.get(
-        `${baseurl}api/post/getposts?postId=${postId}`
+      const data = await axiosInstance.get(
+        `/api/post/getposts?postId=${postId}`
       );
       console.log(data);
       setPublishError(null);

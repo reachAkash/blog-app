@@ -9,9 +9,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase.js";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -61,7 +60,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post(`${baseurl}api/post/create`, formData);
+      const data = await axiosInstance.post(`/api/post/create`, formData);
       setPublishError(null);
       console.log(data);
       navigate(`/post/${data.data.slug}`);

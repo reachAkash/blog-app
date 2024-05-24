@@ -2,10 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../ContextProvider.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Textarea, Modal } from "flowbite-react";
-import axios from "axios";
 import Comment from "./Comment.jsx";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { baseurl } from "../baseurl.js";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 const CommentSection = ({ postId }) => {
   const { state, dispatch } = useContext(Context);
@@ -22,7 +21,7 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const data = await axios.post(`${baseurl}api/comment/create`, {
+      const data = await axiosInstance.post(`/api/comment/create`, {
         content: comment,
         postId,
         userId: state.currentUser._id,
@@ -51,8 +50,8 @@ const CommentSection = ({ postId }) => {
         navigate("/sign-in");
         return;
       }
-      const data = await axios.delete(
-        `${baseurl}api/comment/deletecomment/${commentId}`
+      const data = await axiosInstance.delete(
+        `/api/comment/deletecomment/${commentId}`
       );
       setComments(comments.filter((comment) => comment._id != commentId));
     } catch (err) {
@@ -68,8 +67,8 @@ const CommentSection = ({ postId }) => {
         navigate("/sign-in");
         return;
       }
-      const data = await axios.put(
-        `${baseurl}api/comment/likecomment/${commentId}`
+      const data = await axiosInstance.put(
+        `/api/comment/likecomment/${commentId}`
       );
       setComments(
         comments.map((comment) => {
@@ -88,8 +87,8 @@ const CommentSection = ({ postId }) => {
   };
   const getComments = async () => {
     try {
-      const data = await axios.get(
-        `${baseurl}api/comment/getpostcomments/${postId}`
+      const data = await axiosInstance.get(
+        `/api/comment/getpostcomments/${postId}`
       );
       setComments(data.data);
       console.log(data);
