@@ -54,6 +54,7 @@ const likeComment = async (req, res, next) => {
 };
 
 const editComment = async (req, res, next) => {
+  console.log(req.body);
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {

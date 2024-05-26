@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <div className={state.theme}>
-        <div className="font-montserrat bg-white text-gray-700 dark:text-gray-700 dark:bg-[rgb(16,23,42)] min-h-screen">
+        <div className="font-montserrat bg-white text-gray-700 dark:text-white dark:bg-[rgb(16,23,42)] min-h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />

@@ -38,8 +38,10 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
     try {
       const data = await axiosInstance.put(
         `/api/comment/editComment/${comment._id}`,
-        editedContent
+        { content: editedContent }
       );
+      console.log(data);
+      console.log(editedContent);
       setIsEditing(false);
       onEdit(comment, editedContent);
     } catch (error) {

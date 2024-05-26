@@ -139,11 +139,6 @@ const DashProfile = () => {
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
-      {updateUserSuccess && (
-        <Alert color="success" className="mt-5">
-          {updateUserSuccess}
-        </Alert>
-      )}
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <input
@@ -218,7 +213,11 @@ const DashProfile = () => {
           Sign Out
         </span>
       </div>
-
+      {updateUserSuccess && (
+        <Alert color="success" className="mt-5">
+          {updateUserSuccess}
+        </Alert>
+      )}
       {state.error && (
         <Alert color="failure" className="mt-5">
           {state.error}

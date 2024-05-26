@@ -22,10 +22,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const data = await axiosInstance.post(
-        `${baseurl}api/auth/signup`,
-        formData
-      );
+      const data = await axiosInstance.post(`/api/auth/signup`, formData);
       console.log(data);
       if (data.success === false) {
         setErrorMessage(data.message);

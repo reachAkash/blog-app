@@ -26,7 +26,8 @@ const SignIn = () => {
       dispatch({ type: "signInStart" });
       const data = await axiosInstance.post(`/api/auth/signin`, formData);
       console.log(data);
-      dispatch({ type: "signInSuccess", payload: data.data });
+      localStorage.setItem("token", data.data.token);
+      dispatch({ type: "signInSuccess", payload: data.data.user });
       navigate("/");
     } catch (error) {
       console.log(error);
