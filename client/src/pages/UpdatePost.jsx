@@ -60,6 +60,8 @@ const UpdatePost = () => {
     }
   };
 
+  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -68,7 +70,7 @@ const UpdatePost = () => {
         formData
       );
       setPublishError(null);
-      console.log(data);
+      // console.log(data);
       navigate(`/post/${data.data.slug}`);
     } catch (err) {
       //   setPublishError(err.response.data.message);
@@ -81,9 +83,7 @@ const UpdatePost = () => {
       const data = await axiosInstance.get(
         `/api/post/getposts?postId=${postId}`
       );
-      console.log(data);
       setPublishError(null);
-      //   setFormData(data.posts[0]);
       setFormData(data.data.posts[0]);
     } catch (err) {
       setPublishError(err.message);
@@ -157,7 +157,7 @@ const UpdatePost = () => {
           className="h-72 dark:text-white mb-12 font-montserrat"
           required
           onChange={(value) => {
-            setFormData({ ...formData, content: value });
+            setFormData((prev) => ({ ...prev, content: value }));
           }}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
