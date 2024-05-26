@@ -93,16 +93,11 @@ const DashProfile = () => {
         `/api/user/update/${state.currentUser._id}`,
         formData
       );
-      console.log(data);
-      if (data.statusText != "OK") {
-        setUpdateUserError(data.message);
-        setUpdateUserSuccess(null);
-        dispatch({ type: "updateFailure", payload: data.data.message });
-      } else {
-        dispatch({ type: "updateSuccess", payload: data.data });
-        setUpdateUserSuccess("User's Profile updates successfully!");
-      }
+      console.log(data.data);
+      dispatch({ type: "updateSuccess", payload: data.data });
+      setUpdateUserSuccess("User's Profile updates successfully!");
     } catch (error) {
+      setUpdateUserError(error.message);
       setUpdateUserSuccess(null);
       dispatch({ type: "updateFailure", payload: error.response.data.message });
       // console.log(error);
