@@ -23,7 +23,7 @@ const OAuth = () => {
         googlePhotoUrl: resultsFromGoogle.user.photoURL,
       });
       console.log(data);
-      // localStorage.setItem("token", data.data.token);
+      localStorage.setItem("token", data.data.token);
       dispatch({ type: "signInSuccess", payload: data.data.user });
       navigate("/");
     } catch (error) {
